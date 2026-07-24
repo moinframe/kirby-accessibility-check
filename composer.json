@@ -1,18 +1,48 @@
 {
-  "name": "femundfilou/kirby-accessibility-check",
-  "description": "Kirby plugin to add accessibility checks",
-  "type": "kirby-plugin",
-  "version": "1.0.1-beta.1",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Justus Kraft",
-      "email": "justus@femundfilou.de",
-      "homepage": "https://femundfilou.de"
+    "name": "moinframe/kirby-accessibility-check",
+    "description": "Kirby plugin to add accessibility checks",
+    "type": "kirby-plugin",
+    "homepage": "https://github.com/moinframe/kirby-accessibility-check",
+    "version": "1.0.1-beta.1",
+    "license": "MIT",
+    "keywords": [
+        "kirby",
+        "cms",
+        "plugin",
+        "accessibility",
+        "check"
+    ],
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse"
+    },
+    "authors": [
+        {
+            "name": "Justus Kraft",
+            "email": "justus@moinfra.me",
+            "homepage": "https://moinfra.me"
+        }
+    ],
+    "require": {
+        "getkirby/composer-installer": "^1.2",
+        "getkirby/cms": "^5.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpstan/phpstan-deprecation-rules": "^2.0"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "getkirby/composer-installer": true
+        }
+    },
+    "support": {
+        "docs": "https://moinfra.me/docs/moinframe-accessibility-check",
+        "source": "https://github.com/moinframe/kirby-accessibility-check",
+        "issues": "https://github.com/moinframe/kirby-accessibility-check/issues"
+    },
+    "extra": {
+        "installer-name": "accessibility-check"
     }
-  ],
-  "require": {
-    "getkirby/composer-installer": "^1.2",
-    "php": ">=8.1.0"
-  }
 }

@@ -1,10 +1,6 @@
 # Kirby Accessibility Check
 
-This plugin adds accessibility checking capabilities to your Kirby CMS powered website. With the panel button, editors can enable an accessibility overlay to easily spot issues in the frontend of your website. By default, the Accessibility quality assurance tool [Sa11y](https://github.com/ryersondmp/sa11y) is used and added via CDN.
-
-> [!IMPORTANT]
-> This plugin is compatible with Kirby 5 and up.
-
+This plugin adds accessibility checking capabilities to your Kirby CMS powered website. With the panel button, editors can enable an accessibility overlay to easily spot issues in the frontend of your website. By default, the Accessibility quality assurance tool [Sa11y](https://github.com/ryersondmp/sa11y) is used and added via CDN. Additional providers such as [Editoria11y](https://github.com/itmaybejj/editoria11y) can be enabled via [configuration](#providers).
 
 ## Features
 
@@ -20,18 +16,18 @@ There are three options to install the plugin.
 
 ### Download
 
-Download and copy this repository to `/site/plugins/kirby-accessibility-check`.
+Download and copy this repository to `/site/plugins/accessibility-check`.
 
 ### Git submodule
 
 ```bash
-git submodule add https://github.com/femundfilou/kirby-accessibility-check.git site/plugins/kirby-accessibility-check
+git submodule add https://github.com/moinframe/kirby-accessibility-check.git site/plugins/accessibility-check
 ```
 
 ### Composer
 
 ```bash
-composer require femundfilou/kirby-accessibility-check
+composer require moinframe/kirby-accessibility-check
 ```
 
 ## Setup
@@ -52,23 +48,77 @@ buttons:
 
 ```
 
-### Customize
+## Configuration
 
-You can overwrite each provider by creating a snippet to your `site/snippets` folder. For example, you would create the file `site/snippets/kirby-accessibility-check/providers/sa11y.php` to add your own Sa11y implementation or configuration, e.g. if you don't want to use the CDN or stick to a specific version.
-
-### Configuration
-
-You can configure the plugin by adding the following to your `site/config/config.php` file:
+You can configure the plugin in your `site/config/config.php` file:
 
 ```php
 return [
-    'femundfilou.kirby-accessibility-check.enabled' => false // default: true
+    // Enable/disable the plugin entirely
+    'moinframe.accessibility-check.enabled' => true, // default: true
+
+    // Which providers to render when the check is enabled.
+    // Available: 'sa11y', 'editoria11y'
+    'moinframe.accessibility-check.providers' => ['sa11y'], // default: ['sa11y']
+
+    // Which Sa11y release to load ('latest' or a pinned version like '5.0.8')
+    'moinframe.accessibility-check.sa11y.version' => 'latest', // default: 'latest'
+
+    // Load Sa11y from the jsDelivr CDN. Set to false to self-host.
+    'moinframe.accessibility-check.sa11y.cdn' => true, // default: true
+
+    // When `cdn` is false, point this at your copy of Sa11y's `dist`
+    // folder (no trailing slash). Required for self-hosting.
+    'moinframe.accessibility-check.sa11y.assets' => '/assets/sa11y', // default: null
+
+    'moinframe.accessibility-check.editoria11y.version' => 'latest', // default: 'latest'
+    'moinframe.accessibility-check.editoria11y.cdn' => true,         // default: true
+    'moinframe.accessibility-check.editoria11y.assets' => '/assets/editoria11y', // default: null
 ];
+```
+
+## Providers
+
+The plugin can render one or more accessibility tools ("providers") when an editor
+enables the check. Choose them with the `providers` option:
+
+| Name          | Tool                                                    | Notes                              |
+| ------------- | ------------------------------------------------------- | ---------------------------------- |
+| `sa11y`       | [Sa11y](https://github.com/ryersondmp/sa11y)            | Default. WCAG checker overlay.     |
+| `editoria11y` | [Editoria11y](https://github.com/itmaybejj/editoria11y) | Alternative editor-focused checker |
+
+
+## Self-hosting Sa11y
+
+To avoid the CDN, set `sa11y.cdn` to `false` and copy Sa11y's `dist`
+folder somewhere public (e.g. `assets/sa11y/dist/...`), then point
+`sa11y.assets` at it. The plugin expects the standard Sa11y layout below
+the base URL:
+
+```
+<assets>/css/sa11y.min.css
+<assets>/js/lang/<lang>.umd.js
+<assets>/js/sa11y.umd.min.js
+```
+
+For full control over the markup, you can still override the whole snippet
+at `site/snippets/accessibility-check/providers/sa11y.php`.
+
+## Self-hosting Editoria11y
+
+Same idea for Editoria11y: set `editoria11y.cdn` to `false` and point
+`editoria11y.assets` at your copy of its `dist` folder. The expected layout is:
+
+```
+<assets>/css/editoria11y.min.css
+<assets>/js/lang/<lang>.umd.js
+<assets>/js/ed11y.umd.min.js
 ```
 
 ## License
 MIT
 
 ## Credits
-- [Justus Kraft](https://femundfilou.de)
+- [Justus Kraft](https://moinfra.me)
 - Accessibility quality assurance tool [Sa11y](https://github.com/ryersondmp/sa11y)
+- Accessibility checker [Editoria11y](https://github.com/itmaybejj/editoria11y)

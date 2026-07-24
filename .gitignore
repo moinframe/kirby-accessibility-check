@@ -9,6 +9,8 @@
 
 # Composer files
 /vendor
+.phpstan-cache
+kirby
 
 # kirbyup temp development entry
 /index.dev.mjs

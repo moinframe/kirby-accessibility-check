@@ -10,17 +10,25 @@ const theme = computed(() => isActive.value ? 'positive' : null);
 async function toggleA11y() {
   try {
     const response = await api.post('accessibility-check/toggle');
-    isActive.value = response.mode;
+    isActive.value = Boolean(response.mode);
+    return true;
   } catch (error) {
     panel.error("Could not toggle accessibility check");
+    return false;
   }
 }
 
 async function open() {
-  if (!isActive.value) {
-    await toggleA11y();
+  if (!isActive.value && !(await toggleA11y())) {
+    return; // enabling failed; the error was already surfaced
   }
+
   const previewUrl = panel.view.props.model.previewUrl;
+  if (!previewUrl) {
+    panel.error("No preview URL available for this page");
+    return;
+  }
+
   window.open(previewUrl, '_blank');
 }
 
@@ -41,14 +49,14 @@ function toggle() {
 <template>
   <div>
     <k-button :dropdown="true" icon="accessibility" :theme="theme" variant="filled" size="sm"
-      :title="panel.t('femundfilou.accessibility-check.buttons.toggle')" @click="toggle()"></k-button>
+      :title="panel.t('moinframe.accessibility-check.buttons.toggle')" @click="toggle()"></k-button>
     <k-dropdown-content ref="dropdownContent" align-x="end">
-      <k-dropdown-item :icon="isActive ? 'circle-outline' : 'circle-filled'" @click="toggleA11y">
-        {{ isActive ? panel.t('femundfilou.accessibility-check.buttons.disable') :
-          panel.t('femundfilou.accessibility-check.buttons.enable') }}
+      <k-dropdown-item :icon="isActive ? 'circle-filled' : 'circle'" @click="toggleA11y">
+        {{ isActive ? panel.t('moinframe.accessibility-check.buttons.disable') :
+          panel.t('moinframe.accessibility-check.buttons.enable') }}
       </k-dropdown-item>
       <k-dropdown-item icon="open" @click="open()">
-        {{ panel.t('femundfilou.accessibility-check.buttons.open') }}
+        {{ panel.t('moinframe.accessibility-check.buttons.open') }}
       </k-dropdown-item>
     </k-dropdown-content>
   </div>
