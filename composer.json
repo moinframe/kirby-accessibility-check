@@ -3,7 +3,7 @@
     "description": "Kirby plugin to add accessibility checks",
     "type": "kirby-plugin",
     "homepage": "https://github.com/moinframe/kirby-accessibility-check",
-    "version": "1.0.1-beta.1",
+    "version": "1.1.0",
     "license": "MIT",
     "keywords": [
         "kirby",

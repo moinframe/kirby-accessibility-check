@@ -1,6 +1,6 @@
 {
   "name": "kirby-accessibility-check",
-  "version": "1.0.1-beta.1",
+  "version": "1.1.0",
   "description": "Kirby CMS Plugin to add accessibility checking capabilities to your website.",
   "main": "index.js",
   "scripts": {
